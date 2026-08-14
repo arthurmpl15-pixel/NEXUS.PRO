@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Compra - Arth3D</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .checkmark {
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            animation: bounce 0.6s ease-out;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .order-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .order-number label {
+            font-size: 11px;
+            opacity: 0.9;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .order-number p {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .info-section {
+            margin-bottom: 35px;
+        }
+
+        .info-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .info-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #eff2ff;
+            transform: translateY(-2px);
+        }
+
+        .info-item label {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item p {
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .product-list {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .product-list h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-item:hover {
+            background: white;
+            padding: 15px;
+            margin: 0 -15px;
+            border-radius: 8px;
+        }
+
+        .product-name {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .product-price {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e9ecef;
+            line-height: 1.6;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            color: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 40px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .info-group {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .total {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+                font-size: 18px;
+            }
+
+            .order-number p {
+                font-size: 26px;
+            }
+
+            .checkmark {
+                width: 75px;
+                height: 75px;
+                font-size: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="checkmark">✓</div>
+            <h1>Compra Confirmada!</h1>
+            <p>Obrigado pela sua compra. Seu pedido foi recebido com sucesso!</p>
+        </div>
+
+        <div class="content">
+            <div class="status-badge">✓ Pedido Processado</div>
+
+            <div class="order-number">
+                <label>Número do Pedido</label>
+                <p>#AR-2024-001</p>
+            </div>
+
+            <div class="info-section">
+                <h2>Detalhes do Pedido</h2>
+                <div class="info-group">
+                    <div class="info-item">
+                        <label>Data do Pedido</label>
+                        <p>12 de Agosto de 2026</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Data de Entrega Estimada</label>
+                        <p>17 de Agosto de 2026</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Forma de Pagamento</label>
+                        <p>Cartão de Crédito</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Status da Entrega</label>
+                        <p><span style="color: #28a745; font-weight: bold;">Em Processamento</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>Endereço de Entrega</h2>
+                <div class="info-item">
+                    <label>Endereço</label>
+                    <p>Rua Principal, 123 - Apartamento 45<br>
+                       São Paulo, SP - CEP: 01234-567</p>
+                </div>
+            </div>
+
+            <div class="product-list">
+                <h3>Produto Pedido</h3>
+                <div class="product-item">
+                    <span class="product-name">Start</span>
+                    <span class="product-price">R$ 490,00</span>
+                </div>
+            </div>
+
+            <div class="total">
+                <span>Total da Compra</span>
+                <span>R$ 490,00</span>
+            </div>
+
+            <div class="buttons">
+                <a href="site.html" class="btn btn-secondary">← Voltar para Loja</a>
+                <a href="#" class="btn btn-primary">Acompanhar Pedido →</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Um e-mail de confirmação foi enviado para seu endereço cadastrado.<br>
+            Dúvidas? <a href="#">Entre em contato com nosso suporte</a></p>
+        </div>
+    </div>
+</body>
+</html>

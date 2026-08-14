@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mounjaro® Pro - Protocolo Clínico & Alta Performance Metabólica</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --bg-card: rgba(15, 23, 42, 0.65);
+            --bg-card-hover: rgba(30, 41, 59, 0.85);
+
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.4);
+            --secondary: #06b6d4;
+            --accent: #8b5cf6;
+
+            --border-line: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(16, 185, 129, 0.3);
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+
+            --font-title: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        body {
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* Canvas Particle Background */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ambient Lights */
+        .glow-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            width: 600px;
+            height: 600px;
+            background: rgba(16, 185, 129, 0.12);
+            top: -100px;
+            left: -100px;
+        }
+
+        .glow-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(6, 182, 212, 0.12);
+            top: 40%;
+            right: -100px;
+        }
+
+        /* Header / Navbar */
+        header {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            margin-bottom: 60px;
+        }
+
+        .nav-inner {
+            background: rgba(3, 7, 18, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-line);
+            border-radius: 999px;
+            padding: 12px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.35rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-badge {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #030712;
+            font-weight: 900;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .btn-glow {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #030712;
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 60px;
+            align-items: center;
+            padding: 40px 0 120px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 20px;
+            border-radius: 999px;
+            color: var(--primary);
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #34d399 0%, #38bdf8 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 580px;
+            font-weight: 400;
+        }
+
+        .hero-stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(16px);
+        }
+
+        .stat-box strong {
+            font-family: var(--font-title);
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #fff;
+            display: block;
+        }
+
+        .stat-box span {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        /* 3D CSS Pen Injector Container */
+        .pen-3d-wrapper {
+            perspective: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pen-card {
+            width: 100%;
+            height: 480px;
+            background: linear-gradient(160deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8));
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+            overflow: hidden;
+        }
+
+        .pen-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.6s;
+        }
+
+        .pen-card:hover::before {
+            left: 100%;
+        }
+
+        /* CSS Rendered 3D Pen Graphic */
+        .pen-graphic {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .pen-body-cylinder {
+            width: 280px;
+            height: 42px;
+            background: linear-gradient(180deg, #e2e8f0 0%, #94a3b8 40%, #475569 100%);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+
+        .pen-purple-cap {
+            width: 50px;
+            height: 46px;
+            background: linear-gradient(180deg, #a855f7 0%, #6b21a8 100%);
+            border-radius: 8px 20px 20px 8px;
+            position: absolute;
+            right: -10px;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
+
+        .pen-window {
+            width: 70px;
+            height: 20px;
+            background: rgba(6, 182, 212, 0.25);
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            margin-left: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        .pen-liquid {
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+        }
+
+        .pen-dose-label {
+            position: absolute;
+            left: 110px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: #0f172a;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Section Global Header */
+        .section-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 70px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-title);
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        /* Dual Agonist Feature Grid */
+        .science-section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .dual-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);
+        }
+
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--primary-glow);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .glass-card h3 {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .glass-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Interactive Dose Escalation Selector */
+        .dose-selector-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.03), transparent);
+        }
+
+        .dose-nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .dose-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            color: var(--text-muted);
+            padding: 14px 28px;
+            border-radius: 999px;
+            font-family: var(--font-code);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dose-btn.active,
+        .dose-btn:hover {
+            background: var(--primary);
+            color: #030712;
+            border-color: var(--primary);
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        .dose-display-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            align-items: center;
+            backdrop-filter: blur(20px);
+        }
+
+        /* Matrix Comparison Table */
+        .comparison-section {
+            padding: 100px 0;
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .matrix-table th {
+            background: rgba(15, 23, 42, 0.9);
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .matrix-table td.highlight {
+            background: rgba(16, 185, 129, 0.06);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Calculator 2.0 */
+        .calc-section {
+            padding: 100px 0;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 56px;
+            backdrop-filter: blur(24px);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            color: #fff;
+            font-family: var(--font-code);
+            font-size: 1.1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+
+        .result-box-glow {
+            background: rgba(3, 7, 18, 0.8);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Pricing Cards Ultra */
+        .pricing-section {
+            padding: 100px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .price-card-ultra {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-xl);
+            padding: 48px 36px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+
+        .price-card-ultra.featured {
+            background: linear-gradient(160deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 42, 0.9));
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.25);
+            transform: scale(1.04);
+        }
+
+        .price-card-ultra:hover {
+            transform: translateY(-10px);
+        }
+
+        .price-val {
+            font-family: var(--font-title);
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 24px 0 8px;
+        }
+
+        .price-val small {
+            font-size: 1rem;
+            color: var(--text-dim);
+            font-weight: normal;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 32px 0;
+            flex-grow: 1;
+        }
+
+        .feature-list li {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-list li::before {
+            content: "✦";
+            color: var(--primary);
+        }
+
+        /* FAQ Accordion */
+        .faq-section {
+            padding: 100px 0;
+        }
+
+        .accordion-container {
+            max-width: 840px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .accordion-header {
+            padding: 24px 32px;
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-content {
+            padding: 0 32px 28px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            display: none;
+        }
+
+        .accordion-item.active .accordion-content {
+            display: block;
+        }
+
+        .accordion-item.active {
+            border-color: var(--primary-glow);
+        }
+
+        /* Banner CTA Final */
+        .cta-banner-glow {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15));
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 80px 40px;
+            text-align: center;
+            margin: 80px 0 120px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-line);
+            padding: 60px 0 40px;
+            color: var(--text-dim);
+            font-size: 0.88rem;
+            text-align: center;
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+
+            .hero,
+            .dual-cards-grid,
+            .pricing-grid,
+            .calc-grid,
+            .dose-display-card {
+                grid-template-columns: 1fr;
+            }
+
+            .price-card-ultra.featured {
+                transform: none;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Canvas de Fundo com Partículas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Glowing Ambient Spheres -->
+    <div class="glow-sphere glow-1"></div>
+    <div class="glow-sphere glow-2"></div>
+
+    <div class="container">
+        <!-- Header / Navbar -->
+        <header>
+            <nav class="nav-inner">
+                <a href="#" class="logo">
+                    <img src="dd4c0534-4396-4e54-a37f-2d8601242e0a.jpg" alt="NEXUS PRO"
+                        style="width: 38px; height: 38px; border-radius: 12px;">
+                    NEXUS<span style="color: var(--primary);">PRO</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#ciencia">Mecanismo Dual</a></li>
+                    <li><a href="#dosagens">Escalonamento</a></li>
+                    <li><a href="#comparativo">Diferenciais</a></li>
+                    <li><a href="#calculadora">Calculadora</a></li>
+                    <li><a href="#planos">Planos</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="#planos" class="btn-glow">Agendar Consulta</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div>
+                <div class="hero-badge">
+                    <span class="pulse-dot"></span> PROTOCOLO MÉDICO ESPECIALIZADO
+                </div>
+                <h1>Alta Performance Metabólica com <span class="gradient-text">Tirzepatida</span></h1>
+                <p>A única terapia agonista dupla (GIP + GLP-1) para regulação ponderal e otimização do metabolismo,
+                    guiada por médicos especialistas do início ao fim.</p>
+
+                <div style="display: flex; gap: 16px; margin-bottom: 48px; flex-wrap: wrap;">
+                    <a href="#planos" class="btn-glow" style="padding: 16px 36px; font-size: 1.05rem;">
+                        Iniciar Avaliação Clínica
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                    <a href="#ciencia" class="btn-glow"
+                        style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-line); box-shadow: none;">Ver
+                        Evidências</a>
+                </div>
+
+                <div class="hero-stats-bar">
+                    <div class="stat-box">
+                        <strong>-20.9%</strong>
+                        <span>Redução ponderal média (SURMOUNT-1)</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>Dual</strong>
+                        <span>Receptores GIP + GLP-1</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>100%</strong>
+                        <span>Supervisão Individualizada</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Pen Rendering Card -->
+            <div class="pen-3d-wrapper">
+                <div class="pen-card" id="penCard">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span
+                                style="font-family: var(--font-code); font-size: 0.75rem; color: var(--primary);">DISPOSITIVO
+                                CLINICO</span>
+                            <h3 style="font-family: var(--font-title); font-size: 1.2rem; color: #fff;">Mounjaro®
+                                Auto-Injector</h3>
+                        </div>
+                        <span
+                            style="background: rgba(16,185,129,0.15); color: var(--primary); padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 700;">1x
+                            Semanal</span>
+                    </div>
+
+                    <div class="pen-graphic">
+                        <div class="pen-body-cylinder">
+                            <div class="pen-window">
+                                <div class="pen-liquid"></div>
+                            </div>
+                            <span class="pen-dose-label">Tirzepatide</span>
+                            <div class="pen-purple-cap"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
+                            <span>Tecnologia de Agulha Oculta</span>
+                            <span style="color: #fff; font-weight: 600;">Aplicação Indolora</span>
+                        </div>
+                        <div
+                            style="height: 4px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden;">
+                            <div
+                                style="width: 100%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary));">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ciência / Mecanismo Agonista Duplo -->
+        <section class="science-section reveal" id="ciencia">
+            <div class="section-header">
+                <h2>Revolução Biomédica Dual</h2>
+                <p>Conheça a sinergia entre os dois hormônios incretínicos que superam a eficácia das medicações de
+                    geração anterior.</p>
+            </div>
+
+            <div class="dual-cards-grid">
+                <div class="glass-card">
+                    <div class="icon-box">⚡</div>
+                    <span
+                        style="font-family: var(--font-code); color: var(--secondary); font-size: 0.85rem; font-weight: 700;">COMPONENTE
+                        01</span>
+                    <h3>Receptor GIP</h3>
+                    <p>O Peptídeo Inibitório Gástrico estimula diretamente a secreção fisiológica de insulina,
+                        aperfeiçoa a metabolização dos lipídios nos tecidos periféricos e atua no equilíbrio energético
+                        celular.</p>
+                </div>
+
+                <div class="glass-card">
+                    <div class="icon-box">🎯</div>
+                    <span
+                        style="font-family: var(--font-code); color: var(--primary); font-size: 0.85rem; font-weight: 700;">COMPONENTE
+                        02</span>
+                    <h3>Receptor GLP-1</h3>
+                    <p>Atua no núcleo arqueado do hipotálamo, reduzindo de forma expressiva os pensamentos obsessivos
+                        por comida ("ruído alimentar") e retardando o esvaziamento gástrico para saciedade duradoura.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Escalonamento Dinâmico de Dose -->
+        <section class="dose-selector-section reveal" id="dosagens">
+            <div class="section-header">
+                <h2>Protocolo de Escalonamento Gradual</h2>
+                <p>Clique nas dosagens para visualizar a progressão clínica recomendada.</p>
+            </div>
+
+            <div class="dose-nav">
+                <button class="dose-btn active" onclick="selectDose('2.5')">2.5 mg</button>
+                <button class="dose-btn" onclick="selectDose('5.0')">5.0 mg</button>
+                <button class="dose-btn" onclick="selectDose('7.5')">7.5 mg</button>
+                <button class="dose-btn" onclick="selectDose('10.0')">10.0 mg</button>
+                <button class="dose-btn" onclick="selectDose('12.5')">12.5 mg</button>
+                <button class="dose-btn" onclick="selectDose('15.0')">15.0 mg</button>
+            </div>
+
+            <div class="dose-display-card">
+                <div
+                    style="text-align: center; padding: 24px; background: rgba(3, 7, 18, 0.6); border-radius: var(--radius-lg); border: 1px solid var(--border-line);">
+                    <span style="color: var(--text-dim); font-size: 0.85rem; font-weight: 600;">DOSE SELECIONADA</span>
+                    <div id="doseValDisplay"
+                        style="font-family: var(--font-title); font-size: 3.5rem; font-weight: 800; color: var(--primary); margin: 12px 0;">
+                        2.5 mg</div>
+                    <span id="dosePhaseDisplay" style="color: #fff; font-weight: 600; font-size: 0.95rem;">Fase de
+                        Adaptação</span>
+                </div>
+
+                <div>
+                    <h3 id="doseTitle" style="font-family: var(--font-title); font-size: 1.6rem; margin-bottom: 12px;">
+                        Semanas 1 a 4: Adaptação Metabólica</h3>
+                    <p id="doseDesc" style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;">A dose de
+                        2.5 mg é a porta de entrada do tratamento. O objetivo principal desta fase é acostumar os
+                        receptores gastrointestinais e minimizar reações adversas antes do escalonamento terapêutico.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Matriz Comparativa -->
+        <section class="comparison-section reveal" id="comparativo">
+            <div class="section-header">
+                <h2>Por que ter Acompanhamento Médico?</h2>
+                <p>Compare os resultados entre usar a medicação por conta própria e ter o suporte do Protocolo Mounjaro®
+                    Pro.</p>
+            </div>
+
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th>Pilar do Tratamento</th>
+                        <th>Uso Isolado sem Suporte</th>
+                        <th style="color: var(--primary);">Protocolo Mounjaro® Pro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ajuste e Escalonamento de Doses</td>
+                        <td>Insegurança sobre quando subir a dose</td>
+                        <td class="highlight">Monitoramento médico quinzenal rigoroso</td>
+                    </tr>
+                    <tr>
+                        <td>Gestão de Efeitos Colaterais</td>
+                        <td>Risco de desistência por náuseas</td>
+                        <td class="highlight">Prescrição preventiva de manejo de sintomas</td>
+                    </tr>
+                    <tr>
+                        <td>Preservação de Massa Magra</td>
+                        <td>Perda excessiva de massa muscular</td>
+                        <td class="highlight">Suporte nutricional focado em proteína e força</td>
+                    </tr>
+                    <tr>
+                        <td>Manutenção Pós-Tratamento</td>
+                        <td>Efeito sanfona ao interromper</td>
+                        <td class="highlight">Estratégia de desmame e consolidação de peso</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Calculadora Metabólica 2.0 -->
+        <section class="calc-section reveal" id="calculadora">
+            <div class="section-header">
+                <h2>Calculadora de Projeção Metabólica</h2>
+                <p>Estime seu IMC e visualize a projeção média de redução ponderal em 24 semanas.</p>
+            </div>
+
+            <div class="calc-grid">
+                <div>
+                    <div style="margin-bottom: 24px;">
+                        <label class="form-label" for="inputPeso">Seu Peso Atual (kg):</label>
+                        <input type="number" id="inputPeso" class="form-input" value="92" placeholder="Ex: 92">
+                    </div>
+                    <div style="margin-bottom: 32px;">
+                        <label class="form-label" for="inputAltura">Sua Altura (cm):</label>
+                        <input type="number" id="inputAltura" class="form-input" value="175" placeholder="Ex: 175">
+                    </div>
+                    <button onclick="calcularSimulacao()" class="btn-glow"
+                        style="width: 100%; justify-content: center; padding: 18px;">Calcular Projeção</button>
+                </div>
+
+                <div class="result-box-glow">
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">SEU IMC ATUAL</span>
+                    <div id="resIMC"
+                        style="font-family: var(--font-title); font-size: 3rem; font-weight: 800; color: #fff; margin: 8px 0;">
+                        30.0</div>
+                    <span id="resClassificacao"
+                        style="color: var(--primary); font-weight: 700; margin-bottom: 24px;">Obesidade Grau I</span>
+
+                    <div style="border-top: 1px solid var(--border-line); padding-top: 24px;">
+                        <span style="color: var(--text-dim); font-size: 0.85rem;">PROJEÇÃO ESTIMADA DE PERDA (24
+                            SEMANAS)</span>
+                        <div id="resProjecao"
+                            style="font-family: var(--font-title); font-size: 2.2rem; font-weight: 800; color: var(--secondary); margin-top: 4px;">
+                            ~15.6 kg</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planos e Preços -->
+        <section class="pricing-section reveal" id="planos">
+            <div class="section-header">
+                <h2>Programas de Acompanhamento</h2>
+                <p>Invista na sua saúde com a estrutura médica ideal para o seu objetivo.</p>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 32px;">
+                <a href="confirmacao-compra.html" class="btn-glow" style="padding: 16px 32px; font-size: 1rem;">Ver
+                    tabela de preços START e VIP Concierge</a>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Plano Start -->
+                <article class="price-card-ultra">
+                    <h3 style="font-family: var(--font-title); font-size: 1.5rem;">Start</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Para introdução e fase inicial</p>
+                    <div class="price-val">R$ 490 <small>/mês</small></div>
+                    <ul class="feature-list">
+                        <li>Consulta Médica Inicial</li>
+                        <li>Avaliação do Perfil Metabólico</li>
+                        <li>Prescrição do Medicamento</li>
+                        <li>Suporte por Chat Comercial</li>
+                    </ul>
+                    <a href="confirmacao-compra2.html" class="btn-glow"
+                        style="background: rgba(255,255,255,0.05); color: #fff; justify-content: center; border: 1px solid var(--border-line); box-shadow: none;">Escolher
+                        Start</a>
+                </article>
+
+                <!-- Plano Pro (Destaque) -->
+                <article class="price-card-ultra featured">
+                    <span
+                        style="background: var(--primary); color: #030712; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; align-self: flex-start; margin-bottom: 12px; font-family: var(--font-code);">MAIS
+                        POPULAR</span>
+                    <h3 style="font-family: var(--font-title); font-size: 1.6rem;">Protocolo Pro</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Acompanhamento contínuo e intensivo</p>
+                    <div class="price-val">R$ 890 <small>/mês</small></div>
+                    <ul class="feature-list">
+                        <li>Consultas Médicas Quinzenais</li>
+                        <li>Ajuste Dinâmico de Dosagem</li>
+                        <li>Suporte Prioritário no WhatsApp</li>
+                        <li>Orientação Nutricional Proteica</li>
+                        <li>Manejo Preventivo de Colaterais</li>
+                    </ul>
+                    <a href="confirmacao-compra3.html" class="btn-glow" style="justify-content: center;">Iniciar
+                        Protocolo Pro</a>
+                </article>
+
+                <!-- Plano Concierge -->
+                <article class="price-card-ultra">
+                    <h3 style="font-family: var(--font-title); font-size: 1.5rem;">VIP Concierge</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Atendimento exclusivo multidisciplinar</p>
+                    <div class="price-val">R$ 1.390 <small>/mês</small></div>
+                    <ul class="feature-list">
+                        <li>Consultas Médicas Ilimitadas</li>
+                        <li>Nutricionista Dedicado</li>
+                        <li>Avaliações Periódicas Bioimpedância</li>
+                        <li>Suporte 24/7 Preferencial</li>
+                        <li>Kit de Boas-Vindas Exclusivo</li>
+                    </ul>
+                    <a href="confirmacao-compra3.html" class="btn-glow"
+                        style="background: rgba(255,255,255,0.05); color: #fff; justify-content: center; border: 1px solid var(--border-line); box-shadow: none;">Solicitar
+                        VIP</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- FAQ Accordion -->
+        <section class="faq-section reveal" id="faq">
+            <div class="section-header">
+                <h2>Dúvidas Frequentes</h2>
+                <p>Esclarecimentos clínicos sobre o uso e acompanhamento do Mounjaro®.</p>
+            </div>
+
+            <div class="accordion-container">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>O Mounjaro® exige receita médica?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        Sim, a Tirzepatida é uma medicação sob prescrição médica obrigatória. Nossa equipe realiza a
+                        consulta prévia para certificar que você possui indicação clínica segura antes de prescrever.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Em quanto tempo os resultados começam a aparecer?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        A redução do apetite costuma ser sentida logo nas primeiras 24 a 48 horas após a primeira
+                        aplicação de 2.5 mg. A perda de peso constante consolida-se ao longo das semanas de
+                        acompanhamento.
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Como funciona a aplicação da caneta?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        A aplicação é subcutânea, simples e indolora, realizada uma vez por semana na região abdominal,
+                        coxa ou braço. Durante a consulta inicial, ensinamos todo o procedimento passo a passo.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banner CTA Final -->
+        <section class="cta-banner-glow reveal">
+            <h2 style="font-family: var(--font-title); font-size: 2.8rem; margin-bottom: 20px;">Dê o Primeiro Passo com
+                Segurança</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 36px; font-size: 1.15rem;">Agende sua
+                consulta médica e inicie o protocolo mais avançado do mundo para otimização metabólica.</p>
+            <a href="#planos" class="btn-glow" style="padding: 18px 48px; font-size: 1.1rem;">Agendar Consulta Agora</a>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p style="max-width: 800px; margin: 0 auto 20px; line-height: 1.6;"><strong>Aviso Médico & Legal:</strong> O
+                Mounjaro® (tirzepatida) é um medicamento sob prescrição médica. O conteúdo desta página é exclusivamente
+                informativo. Os resultados variam individualmente conforme resposta metabólica e adesão ao estilo de
+                vida.</p>
+            <p>&copy; 2026 Mounjaro Pro. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Script JavaScript Interativo -->
+    <script>
+        // 1. Canvas Particle System
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.alpha = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(16, 185, 129, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // 2. Interactive Dose Selector Data
+        const doseData = {
+            '2.5': {
+                title: 'Semanas 1 a 4: Adaptação Inicial',
+                desc: 'Dose de introdução destinada à adaptação receptora gastrointestinal. Prepara o organismo para a resposta terapêutica reduzindo qualquer potencial de indisposição.',
+                phase: 'Fase de Adaptação'
+            },
+            '5.0': {
+                title: 'Semanas 5 a 8: Primeiro Nível Terapêutico',
+                desc: 'Início da perda de peso consistente. Notável aumento na saciedade pós-refeição e redução substancial do apetite por carboidratos simples.',
+                phase: 'Fase de Ação Ativa'
+            },
+            '7.5': {
+                title: 'Semanas 9 a 12: Aceleração Ponderal',
+                desc: 'Aumento significativo do controle metabólico. Indicada para pacientes que necessitam de maior estímulo de perda de massa gorda.',
+                phase: 'Aceleração de Resultados'
+            },
+            '10.0': {
+                title: 'Semanas 13 a 16: Consolidação Metabólica',
+                desc: 'Dose de alta eficácia clínica demonstrada nos estudos SURMOUNT. Otimização profunda da sensibilidade à insulina.',
+                phase: 'Consolidação'
+            },
+            '12.5': {
+                title: 'Semanas 17 a 20: Alta Performance',
+                desc: 'Ajuste fino individualizado para metas metabólicas avançadas sob supervisão clínica estrita.',
+                phase: 'Intensificação'
+            },
+            '15.0': {
+                title: 'Dose Máxima Terapêutica',
+                desc: 'Dose máxima aprovada em bula, proporcionando até 20.9% de redução ponderal nos ensaios clínicos de longo prazo.',
+                phase: 'Manutenção & Dose Máxima'
+            }
+        };
+
+        function selectDose(mg) {
+            document.querySelectorAll('.dose-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('doseValDisplay').innerText = mg + ' mg';
+            document.getElementById('doseTitle').innerText = doseData[mg].title;
+            document.getElementById('doseDesc').innerText = doseData[mg].desc;
+            document.getElementById('dosePhaseDisplay').innerText = doseData[mg].phase;
+        }
+
+        // 3. Calculadora Metabólica
+        function calcularSimulacao() {
+            const peso = parseFloat(document.getElementById('inputPeso').value);
+            const altura = parseFloat(document.getElementById('inputAltura').value) / 100;
+
+            if (peso > 0 && altura > 0) {
+                const imc = (peso / (altura * altura)).toFixed(1);
+                document.getElementById('resIMC').innerText = imc;
+
+                let classe = '';
+                if (imc < 25) classe = 'Peso Normal';
+                else if (imc < 30) classe = 'Sobrepeso';
+                else if (imc < 35) classe = 'Obesidade Grau I';
+                else if (imc < 40) classe = 'Obesidade Grau II';
+                else classe = 'Obesidade Grau III';
+
+                document.getElementById('resClassificacao').innerText = classe;
+
+                // Estimativa Média de ~17% de perda em 24 semanas
+                const perdaEstimada = (peso * 0.17).toFixed(1);
+                document.getElementById('resProjecao').innerText = `~${perdaEstimada} kg`;
+            }
+        }
+
+        // 4. Accordion FAQ
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // 5. Scroll Reveal Effect
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
